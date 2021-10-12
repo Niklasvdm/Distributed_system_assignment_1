@@ -27,7 +27,7 @@ public class BookingManager implements Remote, IBookingManager{
 	}
 
 	public Set<Integer> getAllRooms() {
-		Set<Integer> allRooms = new HashSet<Integer>();
+		Set<Integer> allRooms = new HashSet<>();
 		Room[] roomIterator = rooms;
 		for (Room room : roomIterator) {
 			allRooms.add(room.getRoomNumber());
@@ -51,7 +51,7 @@ public class BookingManager implements Remote, IBookingManager{
 		return false;
 	}
 
-	public void addBooking(BookingDetail bookingDetail) {
+	public void addBooking(BookingDetail bookingDetail) throws IllegalArgumentException {
 		Integer roomNumber = bookingDetail.getRoomNumber();
 		if (!isRoomAvailable(roomNumber, bookingDetail.getDate())) {
 			throw new IllegalArgumentException("Room not available at given date.");

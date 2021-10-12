@@ -11,7 +11,7 @@ public interface IBookingManager extends Remote {
 
     public boolean isRoomAvailable(Integer roomNumber, LocalDate date) throws RemoteException;
 
-    public void addBooking(BookingDetail bookingDetail) throws RemoteException;
+    public void addBooking(BookingDetail bookingDetail) throws RemoteException, IllegalArgumentException;
 
     public Set<Integer> getAvailableRooms(LocalDate date) throws RemoteException;
 }
