@@ -2,10 +2,7 @@ package hotel;
 
 import java.rmi.Remote;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class BookingManager implements Remote {
 
@@ -25,7 +22,6 @@ public class BookingManager implements Remote {
 	}
 
 	public boolean isRoomAvailable(Integer roomNumber, LocalDate date) {
-		//implement this method
 		Room[] roomIterator = rooms;
 		for (Room room : roomIterator) {
 			if (room.getRoomNumber().equals(roomNumber)) {
@@ -57,8 +53,17 @@ public class BookingManager implements Remote {
 	}
 
 	public Set<Integer> getAvailableRooms(LocalDate date) {
-		//implement this method
-		return null;
+		HashSet<Integer> available = new HashSet<>();
+		Room[] roomIterator = rooms;
+		for (Room room : roomIterator) {
+			List<BookingDetail> bookings = room.getBookings();
+			for (BookingDetail booking : bookings) {
+				if (booking.getDate().equals(date)) {
+					available.add(room.getRoomNumber());
+				}
+			}
+		}
+		return available;
 	}
 
 	private static Room[] initializeRooms() {
