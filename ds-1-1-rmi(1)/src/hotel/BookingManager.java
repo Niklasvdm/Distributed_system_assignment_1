@@ -4,7 +4,7 @@ import java.rmi.Remote;
 import java.time.LocalDate;
 import java.util.*;
 
-public class BookingManager implements Remote {
+public class BookingManager implements Remote,IBookingManager{
 
 	private Room[] rooms;
 
