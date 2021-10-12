@@ -14,8 +14,8 @@ public class BookingManager implements Remote, IBookingManager{
 
 	public static void main(String[] args) throws RemoteException {
 		System.setSecurityManager(null);
-//		System.setProperty("java.rmi.server.hostname","localhost");
-//		LocateRegistry.createRegistry(8080);
+		System.setProperty("java.rmi.server.hostname","localhost");
+		LocateRegistry.createRegistry(8080);
 		BookingManager bm = new BookingManager();
 		IBookingManager stub = (IBookingManager) UnicastRemoteObject.exportObject(bm,0);
 		Registry registry = LocateRegistry.getRegistry();
@@ -72,7 +72,7 @@ public class BookingManager implements Remote, IBookingManager{
 		for (Room room : roomIterator) {
 			List<BookingDetail> bookings = room.getBookings();
 			for (BookingDetail booking : bookings) {
-				if (booking.getDate().equals(date)) {
+				if (!booking.getDate().equals(date)) {
 					available.add(room.getRoomNumber());
 				}
 			}

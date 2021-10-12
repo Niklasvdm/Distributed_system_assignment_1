@@ -15,7 +15,7 @@ public class BookingClient extends AbstractScriptedSimpleTest {
 	private IBookingManager bm = null;
 
 	public static void main(String[] args) throws Exception {
-//		System.setProperty("java.rmi.server.hostname","localhost");
+		System.setProperty("java.rmi.server.hostname","localhost");
 		BookingClient client = new BookingClient();
 		client.run();
 	}
