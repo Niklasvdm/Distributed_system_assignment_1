@@ -1,16 +1,18 @@
 package staff;
 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.time.LocalDate;
 import java.util.Set;
 
 import hotel.BookingDetail;
-import hotel.BookingManager;
+import hotel.IBookingManager;
 
 public class BookingClient extends AbstractScriptedSimpleTest {
 
-	private BookingManager bm = null;
+	private IBookingManager bm = null;
 
 	public static void main(String[] args) throws Exception {
 		BookingClient client = new BookingClient();
@@ -25,7 +27,7 @@ public class BookingClient extends AbstractScriptedSimpleTest {
 			//Look up the registered remote instance
 			System.setSecurityManager(null);
 			Registry registry = LocateRegistry.getRegistry();
-			bm = (BookingManager) registry.lookup("bm-name");
+			bm = (IBookingManager) registry.lookup("bm-name");
 			//bm = new BookingManager();
 		} catch (Exception exp) {
 			exp.printStackTrace();
@@ -33,23 +35,23 @@ public class BookingClient extends AbstractScriptedSimpleTest {
 	}
 
 	@Override
-	public boolean isRoomAvailable(Integer roomNumber, LocalDate date) {
+	public boolean isRoomAvailable(Integer roomNumber, LocalDate date) throws RemoteException {
 		//Implement this method
 		return bm.isRoomAvailable(roomNumber, date);
 	}
 
 	@Override
-	public void addBooking(BookingDetail bookingDetail) throws Exception {
+	public void addBooking(BookingDetail bookingDetail) throws Exception, RemoteException {
 		bm.addBooking(bookingDetail);
 	}
 
 	@Override
-	public Set<Integer> getAvailableRooms(LocalDate date) {
+	public Set<Integer> getAvailableRooms(LocalDate date)throws RemoteException {
 		return bm.getAvailableRooms(date);
 	}
 
 	@Override
-	public Set<Integer> getAllRooms() {
+	public Set<Integer> getAllRooms() throws RemoteException {
 		return bm.getAllRooms();
 	}
 }
