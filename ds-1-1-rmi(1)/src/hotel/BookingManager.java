@@ -71,10 +71,14 @@ public class BookingManager implements Remote, IBookingManager{
 		Room[] roomIterator = rooms;
 		for (Room room : roomIterator) {
 			List<BookingDetail> bookings = room.getBookings();
+			boolean booked = false;
 			for (BookingDetail booking : bookings) {
-				if (!booking.getDate().equals(date)) {
-					available.add(room.getRoomNumber());
+				if (booking.getDate().equals(date)) {
+					booked = true;
 				}
+			}
+			if (!booked) {
+				available.add(room.getRoomNumber());
 			}
 		}
 		return available;

@@ -39,7 +39,7 @@ public abstract class AbstractScriptedSimpleTest {
 
 		isRoomAvailable(101, today); //true
 		BookingDetail bd1 = new BookingDetail("Ansar", 101, today);
-		addBooking(bd1);//booking success
+			addBooking(bd1);//booking success
 
 		//Check available rooms after the first booking
 		System.out.println("Printing the list of available rooms after the first booking\n");
