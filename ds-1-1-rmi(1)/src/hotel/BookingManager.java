@@ -1,11 +1,13 @@
 package hotel;
 
+import java.rmi.Remote;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-public class BookingManager {
+public class BookingManager implements Remote {
 
 	private Room[] rooms;
 
@@ -15,7 +17,7 @@ public class BookingManager {
 
 	public Set<Integer> getAllRooms() {
 		Set<Integer> allRooms = new HashSet<Integer>();
-		Iterable<Room> roomIterator = Arrays.asList(rooms);
+		Room[] roomIterator = rooms;
 		for (Room room : roomIterator) {
 			allRooms.add(room.getRoomNumber());
 		}
@@ -24,11 +26,34 @@ public class BookingManager {
 
 	public boolean isRoomAvailable(Integer roomNumber, LocalDate date) {
 		//implement this method
+		Room[] roomIterator = rooms;
+		for (Room room : roomIterator) {
+			if (room.getRoomNumber().equals(roomNumber)) {
+				List<BookingDetail> bookings = room.getBookings();
+				for (BookingDetail detail : bookings) {
+					if (detail.getDate().equals(date)) {
+						return false;
+					}
+				}
+				return true;
+			}
+		}
 		return false;
 	}
 
 	public void addBooking(BookingDetail bookingDetail) {
-		//implement this method
+		Integer roomNumber = bookingDetail.getRoomNumber();
+		if (!isRoomAvailable(roomNumber, bookingDetail.getDate())) {
+			throw new IllegalArgumentException("Room not available at given date.");
+		}
+		Room[] roomIterator = rooms;
+		for (Room room : roomIterator) {
+			if (room.getRoomNumber().equals(roomNumber)) {
+				List<BookingDetail> bookings = room.getBookings();
+				bookings.add(bookingDetail);
+				room.setBookings(bookings);
+			}
+		}
 	}
 
 	public Set<Integer> getAvailableRooms(LocalDate date) {

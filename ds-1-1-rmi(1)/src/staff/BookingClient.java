@@ -1,5 +1,7 @@
 package staff;
 
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -21,7 +23,10 @@ public class BookingClient extends AbstractScriptedSimpleTest {
 	public BookingClient() {
 		try {
 			//Look up the registered remote instance
-			bm = new BookingManager();
+			System.setSecurityManager(null);
+			Registry registry = LocateRegistry.getRegistry();
+			bm = (BookingManager) registry.lookup("bm-name");
+			//bm = new BookingManager();
 		} catch (Exception exp) {
 			exp.printStackTrace();
 		}
@@ -30,7 +35,7 @@ public class BookingClient extends AbstractScriptedSimpleTest {
 	@Override
 	public boolean isRoomAvailable(Integer roomNumber, LocalDate date) {
 		//Implement this method
-		return true;
+		return bm.isRoomAvailable(roomNumber, date);
 	}
 
 	@Override
