@@ -1,12 +1,26 @@
 package hotel;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDate;
 import java.util.*;
 
-public class BookingManager implements Remote,IBookingManager{
+public class BookingManager implements Remote, IBookingManager{
 
 	private Room[] rooms;
+
+	public static void main(String[] args) throws RemoteException {
+		System.setSecurityManager(null);
+//		System.setProperty("java.rmi.server.hostname","localhost");
+//		LocateRegistry.createRegistry(8080);
+		BookingManager bm = new BookingManager();
+		IBookingManager stub = (IBookingManager) UnicastRemoteObject.exportObject(bm,0);
+		Registry registry = LocateRegistry.getRegistry();
+		registry.rebind("bm-name", stub);
+	}
 
 	public BookingManager() {
 		this.rooms = initializeRooms();
